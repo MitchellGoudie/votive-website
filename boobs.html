@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boobs Pendant - VOTIVA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="product.css">
+</head>
+<body>
+    <nav class="navbar scrolled" id="navbar">
+        <a href="index.html" class="logo">VOTIVA</a>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#gallery">Collection</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="product-detail">
+        <div class="product-detail-container">
+            <div class="product-gallery">
+                <div class="gallery-main">
+                    <img src="Assets/Product Photos/Boobs/PendantSilver.png" alt="Boobs Pendant" id="mainImage">
+                </div>
+                <div class="gallery-thumbnails">
+                    <img src="Assets/Product Photos/Boobs/PendantSilver.png" alt="Boobs Pendant" class="thumbnail active" onclick="changeImage(this)">
+                    <img src="Assets/Product Photos/Boobs/BoobConcreteSilver.png" alt="Boobs Pendant Concrete" class="thumbnail" onclick="changeImage(this)">
+                </div>
+            </div>
+
+            <div class="product-details">
+                <h1>Boobs</h1>
+                <p class="product-material">Silver</p>
+                <p class="product-price">$250</p>
+
+                <div class="product-description">
+                    <p>Bold and unapologetic, the Boobs pendant celebrates the feminine form as art. Handcrafted in silver, this piece is a powerful statement of body positivity and self-expression.</p>
+                    <p>Customize with your own piercings and choose from four gemstone colors to make it uniquely yours.</p>
+                </div>
+
+                <div class="product-features">
+                    <h3>Features</h3>
+                    <ul>
+                        <li>Handcrafted sterling silver</li>
+                        <li>Customizable with piercings</li>
+                        <li>Compatible with 4 gemstone colors</li>
+                        <li>Pendant size: [measurements]</li>
+                        <li>Includes silver chain</li>
+                    </ul>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+                <a href="index.html" class="back-link">← Back to Collection</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-logo">VOTIVA</div>
+        <p class="footer-text">
+            Handcrafted jewelry for the modern individual<br>
+            A language understood throughout all cultures<br><br>
+            © 2025 VOTIVA. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        function changeImage(thumbnail) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = thumbnail.src;
+
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            thumbnail.classList.add('active');
+        }
+    </script>
+</body>
+</html>
