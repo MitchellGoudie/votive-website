@@ -134,6 +134,39 @@
     color: #fafafa;
 }
 
+.product-dimensions {
+    margin-bottom: 3rem;
+}
+
+.product-dimensions h3 {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fafafa;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05rem;
+}
+
+.product-dimensions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.product-dimensions li {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 1rem;
+    color: #fafafa;
+    opacity: 0.8;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #222;
+}
+
+.product-dimensions li:before {
+    content: "•";
+    margin-right: 1rem;
+    color: #fafafa;
+}
+
 .buy-button {
     width: 100%;
     background: #fafafa;
