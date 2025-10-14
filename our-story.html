@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story - VOTIVA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="our-story.css">
+</head>
+<body>
+    <nav class="navbar scrolled" id="navbar">
+        <a href="index.html" class="logo">VOTIVA</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#products">Collection</a></li>
+            <li><a href="our-story.html">Our Story</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="lore-hero">
+        <div class="lore-hero-content">
+            <h1>The Sacred Vessel</h1>
+        </div>
+    </section>
+
+    <section class="lore-content">
+        <div class="sketch-container sketch-1">
+            <img src="Assets/Product Photos/Lips/LipsSketch.png" alt="Lips Sketch">
+        </div>
+        <div class="sketch-container sketch-2">
+            <img src="Assets/Product Photos/Eyes/EyesSketch.png" alt="Eyes Sketch">
+        </div>
+        <div class="sketch-container sketch-3">
+            <img src="Assets/Product Photos/Boobs/BoobSketch.png" alt="Eros Sketch">
+        </div>
+        <div class="lore-text">
+            <p class="lore-paragraph opening">
+                It is a belief as old as the first shadow cast by firelight: the body is a sacred vessel. Before we built temples of stone, the first altar was the self—the form that carries our spirit through the world. In ancient traditions, to adorn this form was not vanity, but a ritual of reverence.
+            </p>
+
+            <p class="lore-paragraph emphasis">
+                From this belief came the Votivas.
+            </p>
+
+            <p class="lore-paragraph">
+                They were not merely ornaments, but votive offerings made to one's own journey. Artisans, known only as the Form-smiths, would forge relics in the shape of the body itself—the graceful curve of an ear, the expressive gesture of a hand, the parted line of the lips. These were created not as finished pieces, but as "forms in waiting," pure and unmarked.
+            </p>
+
+            <p class="lore-paragraph emphasis quote-callout">
+                A Votiva was considered a silent promise. It was the wearer who gave it a voice.
+            </p>
+
+            <p class="lore-paragraph">
+                The final act of creation was a personal ritual. By adding a piercing or setting a stone, the wearer would mark the piece with their own story—a vow of intent, a whisper of a memory, a scar of a lesson learned. Each mark was a sigil of the self, transforming the Votiva from a beautiful object into an intimate extension of their being. The adornment was not complete until it was touched by the soul of its keeper.
+            </p>
+
+            <p class="lore-paragraph emphasis">
+                VOTIVA is the echo of this lost art.
+            </p>
+
+            <p class="lore-paragraph">
+                We are the modern Form-smiths, crafting these sacred vessels for you. We provide the timeless form, forged with intention and respect for the craft. But the final design, the true meaning, belongs to you.
+            </p>
+
+            <p class="lore-paragraph emphasis quote-callout">
+                We create the vessel. You provide the spirit.
+            </p>
+
+            <p class="lore-paragraph closing">
+                Adorn the form, design the self.
+            </p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-logo">VOTIVA</div>
+        <p class="footer-text">
+            Handcrafted jewelry for the modern individual<br>
+            A language understood throughout all cultures<br><br>
+            © 2025 VOTIVA. All rights reserved.
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Sketch scroll effect with parallax for multiple sketches
+        window.addEventListener('scroll', function() {
+            const sketch1 = document.querySelector('.sketch-1');
+            const sketch2 = document.querySelector('.sketch-2');
+            const sketch3 = document.querySelector('.sketch-3');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+
+            const scrollPercent = scrollPosition / (windowHeight * 2);
+
+            // Sketch 1 - Always visible, just parallax
+            const translateY1 = scrollPercent * 40;
+            const rotation1 = -5 + (scrollPercent * 8);
+            sketch1.style.transform = `translate(-50%, calc(-50% + ${translateY1}px)) rotate(${rotation1}deg)`;
+
+            // Sketch 2 - Appears on scroll
+            if (scrollPosition > windowHeight * 0.15) {
+                sketch2.classList.add('show');
+                const translateY2 = scrollPercent * 50;
+                const rotation2 = 3 + (scrollPercent * 6);
+                sketch2.style.transform = `translate(-50%, calc(-50% + ${translateY2}px)) rotate(${rotation2}deg)`;
+            } else {
+                sketch2.classList.remove('show');
+            }
+
+            // Sketch 3 - Appears later on scroll
+            if (scrollPosition > windowHeight * 0.35) {
+                sketch3.classList.add('show');
+                const translateY3 = scrollPercent * 60;
+                const rotation3 = -8 + (scrollPercent * 10);
+                sketch3.style.transform = `translate(-50%, calc(-50% + ${translateY3}px)) rotate(${rotation3}deg)`;
+            } else {
+                sketch3.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
