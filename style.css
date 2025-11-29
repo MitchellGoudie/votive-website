@@ -168,11 +168,86 @@ body {
 }
 
 .product-item {
-    text-align: center;
+    text-align: left; /* Ensure left align */
     text-decoration: none;
     display: block;
-    transition: transform 0.3s ease;
     position: relative;
+    color: inherit; /* Inherit text color */
+}
+
+/* 1. Material Badges (Floating Ag/Au symbols) */
+.material-badges {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 5px;
+    z-index: 10;
+    opacity: 0.7;
+}
+
+.badge-silver, .badge-gold {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    padding: 4px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid #333;
+    color: #E0E0E0;
+}
+
+.badge-gold {
+    color: #C5A059; /* Gold text for Au */
+    border-color: #C5A059;
+}
+
+/* 3. Meta Data (Materials & Price) */
+.product-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #1a1a1a;
+    padding-top: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-materials {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.product-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #C5A059; /* Votive Gold */
+    font-weight: 400;
+}
+
+/* 4. Suite Hint (The Ring/Earring Link) */
+.product-suite-hint {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 4px;
+    transition: color 0.3s ease;
+}
+
+.product-item:hover .product-suite-hint {
+    color: #999; /* Lightens on hover */
+}
+
+.suite-icon {
+    font-size: 12px;
+    margin-right: 4px;
+    display: inline-block;
+    transform: translateY(1px);
 }
 
 .product-image-wrapper {
@@ -225,7 +300,7 @@ body {
 }
 
 .product-info {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
     text-align: left;
 }
 
