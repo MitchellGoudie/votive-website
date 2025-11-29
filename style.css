@@ -49,6 +49,7 @@ body {
     font-size: 1.8rem;
     color: #fafafa;
     letter-spacing: 0;
+    text-decoration: none;
 }
 
 .nav-links {
@@ -1558,4 +1559,24 @@ details ul, details p {
     .gallery-item.tall {
         grid-row: span 1;
     }
+}
+
+/* FORCE SECONDARY GEM VISIBILITY */
+#secondary-gem-container {
+    margin-top: 1.5rem;
+    border-top: 1px dashed #333;
+    padding-top: 1rem;
+    /* Ensure it takes up space */
+    min-height: 80px; 
+    width: 100%;
+    /* Override any hidden attributes */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ensure the selector inside isn't hidden */
+#gem-selector-2 {
+    display: flex !important;
+    gap: 15px;
+    flex-wrap: wrap;
 }
