@@ -3,90 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eyes Pendant - VOTIVA</title>
+    <title>The Oculus - VOTIVA</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="product.css">
+
+    <script>
+        // 1. DEFINE CONFIG GLOBAL VARIABLES
+        let currentConfig = {
+            material: 'silver',
+            state: 'unmarked',
+            piercing: 'hoop',
+            piercingMaterial: 'silver',
+            gem: 'black',
+            gem2: 'black'
+        };
+    
+        const prices = {
+            silver: 250,
+            gold: 320,
+            piercingCost: 40 
+        };
+    
+        const gemNames = {
+            black: "Black Onyx", sapphire: "Blue Sapphire", emerald: "Green Emerald",
+            amethyst: "Purple Amethyst", ruby: "Red Ruby", white: "White Diamond"
+        };
+    
+        // 2. DEFINE THE FUNCTION GLOBALLY
+        function updateConfig(type, value) {
+        console.log("updateConfig:", type, value);
+        currentConfig[type] = value;
+        
+        // --- 1. VISUAL UPDATE (BUTTONS) ---
+        let container = null;
+        
+        // Map Types to Containers
+        if(type === 'gem') container = document.getElementById('gem-selector-1');
+        else if(type === 'gem2') container = document.getElementById('gem-selector-2');
+        else if(type === 'piercing') container = document.getElementById('piercing-shape-select'); // Ensure HTML has this ID
+        else if(type === 'piercingMaterial') container = document.getElementById('piercing-material-select');
+        else if(type === 'material') container = document.getElementById('material-select');
+        else if(type === 'state') container = document.querySelector('.state-group');
+
+        // Apply Active Classes
+        if(container) {
+            const buttons = container.querySelectorAll('.config-btn, .gem-btn');
+            buttons.forEach(btn => btn.classList.remove('active', 'active-silver', 'active-gold'));
+
+            // Find clicked button
+            let selector = type.includes('gem') ? `[data-gem="${value}"]` : `[data-value="${value}"]`;
+            const activeBtn = container.querySelector(selector);
+            
+            if(activeBtn) {
+                // LOGIC: Which material color should this button use?
+                let targetMaterial = 'silver'; // Default
+
+                if (type === 'piercing' || type === 'piercingMaterial') {
+                    // Piercing buttons use Piercing Material
+                    targetMaterial = currentConfig.piercingMaterial;
+                } else {
+                    // Everything else uses Body Material
+                    targetMaterial = currentConfig.material;
+                }
+
+                // Apply Color
+                if (targetMaterial === 'silver') activeBtn.classList.add('active-silver');
+                else activeBtn.classList.add('active-gold');
+                
+                activeBtn.classList.add('active'); 
+            }
+        }
+
+        // --- 2. LOGIC & VISIBILITY ---
+
+        // Show/Hide Secondary Gem (Horseshoe Logic)
+        const secGem = document.getElementById('secondary-gem-container');
+        if (secGem) {
+            // Check logic: Must be ADORNED state AND HORSESHOE piercing
+            if (currentConfig.state === 'adorned' && currentConfig.piercing === 'horseshoe') {
+                secGem.style.display = 'block';
+                // Force a redraw to ensure visibility
+                secGem.style.visibility = 'visible';
+                secGem.style.opacity = '1';
+            } else {
+                secGem.style.display = 'none';
+            }
+        }
+
+        // Show/Hide Adornment Section
+        if (type === 'state') {
+            const adornmentSection = document.getElementById('adornment-options');
+            if (adornmentSection) {
+                if (value === 'adorned') adornmentSection.classList.add('visible');
+                else adornmentSection.classList.remove('visible');
+            }
+        }
+
+        // --- 3. REFRESH RELATED BUTTONS ---
+        // If we changed a material, we need to update the colors of other buttons to match
+        
+        // If Piercing Material Changed -> Update Hoop/Horseshoe color
+        if (type === 'piercingMaterial') {
+            const shapeContainer = document.getElementById('piercing-shape-select');
+            if(shapeContainer) {
+                const activeShape = shapeContainer.querySelector('.active');
+                if(activeShape) {
+                    activeShape.classList.remove('active-silver', 'active-gold');
+                    if(value === 'silver') activeShape.classList.add('active-silver');
+                    else activeShape.classList.add('active-gold');
+                }
+            }
+        }
+
+        // If Body Material Changed -> Update State & Commission Button color
+        if (type === 'material') {
+            // Update State Group
+            const stateGroup = document.querySelector('.state-group');
+            const activeState = stateGroup ? stateGroup.querySelector('.active') : null;
+            if(activeState) {
+                activeState.classList.remove('active-silver', 'active-gold');
+                if(value === 'silver') activeState.classList.add('active-silver');
+                else activeState.classList.add('active-gold');
+            }
+        }
+
+        // --- 4. TEXT & PRICE ---
+        
+        // Update Labels
+        if (type === 'gem') document.getElementById('gem-name-display').textContent = gemNames[value];
+        if (type === 'gem2') document.getElementById('gem-name-display-2').textContent = gemNames[value];
+
+        // Price Calc
+        let finalPrice = currentConfig.material === 'silver' ? prices.silver : prices.gold;
+        if (currentConfig.state === 'adorned') {
+            finalPrice += prices.piercingCost;
+        }
+        
+        // Update Price & Main Button Color
+        const priceEl = document.getElementById('finalPrice');
+        const buyBtn = document.querySelector('.buy-button');
+        
+        if(priceEl) {
+            priceEl.textContent = `$${finalPrice}`;
+            priceEl.classList.remove('text-silver', 'text-gold');
+            if(currentConfig.material === 'silver') priceEl.classList.add('text-silver');
+            else priceEl.classList.add('text-gold');
+        }
+        
+        if(buyBtn) {
+            buyBtn.classList.remove('theme-silver', 'theme-gold');
+            if(currentConfig.material === 'silver') buyBtn.classList.add('theme-silver');
+            else buyBtn.classList.add('theme-gold');
+        }
+    }
+    
+        // 3. IMAGE GALLERY FUNCTION
+        function changeImage(thumbnail) {
+            const mainImage = document.getElementById('mainImage');
+            if(mainImage && thumbnail) {
+                mainImage.src = thumbnail.src;
+                document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+                thumbnail.classList.add('active');
+            }
+        }
+
+        console.log("💎 VOTIVA Script Loaded Successfully");
+
+        // 2. Trigger the default state immediately
+        // This makes sure "Silver" and "Unmarked" are highlighted when the page loads
+        updateConfig('material', 'silver');
+    </script>
 </head>
 <body>
     <nav class="navbar scrolled" id="navbar">
         <a href="index.html" class="logo">VOTIVA</a>
         <ul class="nav-links">
             <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#gallery">Collection</a></li>
+            <li><a href="index.html#products">Collection</a></li>
             <li><a href="index.html#contact">Contact</a></li>
         </ul>
     </nav>
 
     <section class="product-detail">
         <div class="product-detail-container">
+            
             <div class="product-gallery">
                 <div class="gallery-main">
-                    <img src="Assets/Product Photos/Eyes/PendantSilver.png" alt="Eyes Pendant" id="mainImage">
+                    <img src="Assets/Product Photos/Eyes/PendantSilver.png" alt="Siren Pendant" id="mainImage">
                 </div>
                 <div class="gallery-thumbnails">
-                    <img src="Assets/Product Photos/Eyes/PendantSilver.png" alt="Eyes Pendant" class="thumbnail active" onclick="changeImage(this)">
-                    <img src="Assets/Product Photos/Eyes/EyeConcreteSilver.png" alt="Eyes Pendant Concrete" class="thumbnail" onclick="changeImage(this)">
-                    <img src="Assets/Product Photos/Eyes/Lipsdimensions.png" alt="Eyes Dimensions" class="thumbnail" onclick="changeImage(this)">
+                    <img src="Assets/Product Photos/Eyes/PendantSilver.png" class="thumbnail active" onclick="changeImage(this)">
+                    <img src="Assets/Product Photos/Eyes/EyeConcreteSilver.png" class="thumbnail" onclick="changeImage(this)">
                 </div>
             </div>
 
             <div class="product-details">
-                <h1>Oculus</h1>
-                <p class="product-material">Silver</p>
-                <p class="product-price">$250</p>
+                <div class="form-factor-nav">
+                    <a href="#" class="form-link active">Pendant</a>
+                    <a href="lips-ring.html" class="form-link">Ring</a> <a href="lips-earring.html" class="form-link">Earring</a> </div>
+
+                <div class="product-header-group">
+                    <h1>The Oculus</h1>
+                    <span class="product-subtitle">PENDANT · ANATOMY I</span>
+                </div>
+
+                <p class="product-price" id="finalPrice">$250</p>
 
                 <div class="product-description">
-                    <p>Captivating and mysterious, the Oculus pendant draws attention and invites contemplation. Handcrafted in silver, this piece represents the window to self-expression.</p>
-                    <p>Customize with your own piercings and choose from four gemstone colors to make it uniquely yours.</p>
+                    <p>Perception and truth. The Oculus is the watcher and the witness. Handcrafted to capture the gaze that sees beyond the surface.</p>
                 </div>
 
-                <div class="product-features">
-                    <h3>Features</h3>
-                    <ul>
-                        <li>Handcrafted sterling silver</li>
-                        <li>Customizable with piercings</li>
-                        <li>Compatible with 4 gemstone colors</li>
-                        <li>Includes silver chain</li>
-                    </ul>
+                <div class="configurator">
+                    
+                    <div class="config-section">
+                        <label class="config-label">I. The Foundation</label>
+                        <div class="toggle-group" id="material-select">
+                            <button class="config-btn active" data-value="silver" onclick="updateConfig('material', 'silver')">Silver (Ag)</button>
+                            <button class="config-btn" data-value="gold" onclick="updateConfig('material', 'gold')">Gold Vermeil (Au)</button>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <label class="config-label">II. The State</label>
+                        <div class="toggle-group state-group">
+                            <button class="config-btn active" data-value="unmarked" onclick="updateConfig('state', 'unmarked')">
+                                Unmarked
+                                <span class="btn-sub">Pristine Form</span>
+                            </button>
+                            <button class="config-btn" data-value="pierced" onclick="updateConfig('state', 'pierced')">
+                                Pierced
+                                <span class="btn-sub">Hole Only</span>
+                            </button>
+                            <button class="config-btn" data-value="adorned" onclick="updateConfig('state', 'adorned')">
+                                Adorned
+                                <span class="btn-sub">+ Piercing</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="adornment-options" class="hidden-section">
+                        <div class="divider-line"></div>
+                        
+                        <div class="config-section">
+                            <label class="config-label">III. The Piercing</label>
+                            <div class="toggle-group" id="piercing-shape-select">
+                                <button class="config-btn active" data-value="hoop" onclick="updateConfig('piercing', 'hoop')">Hoop</button>
+                                <button class="config-btn" data-value="horseshoe" onclick="updateConfig('piercing', 'horseshoe')">Horseshoe</button>
+                            </div>
+                        </div>
+
+                        <div class="config-section">
+                            <label class="config-label">Piercing Material</label>
+                            <div class="toggle-group" id="piercing-material-select">
+                                <button class="config-btn active" data-value="silver" onclick="updateConfig('piercingMaterial', 'silver')">Silver</button>
+                                <button class="config-btn" data-value="gold" onclick="updateConfig('piercingMaterial', 'gold')">Gold</button>
+                            </div>
+                        </div>
+
+                        <div class="config-section">
+                            <label class="config-label">IV. The Offering</label>
+                            
+                            <p class="gem-label-small">Primary Stone</p>
+                            <div class="gem-selector" id="gem-selector-1">
+                                <button class="gem-btn active" style="background-color: #111; border-color: #333;" data-gem="black" onclick="updateConfig('gem', 'black')"></button>
+                                <button class="gem-btn" style="background-color: #1a2b5e;" data-gem="sapphire" onclick="updateConfig('gem', 'sapphire')"></button>
+                                <button class="gem-btn" style="background-color: #1a5e32;" data-gem="emerald" onclick="updateConfig('gem', 'emerald')"></button>
+                                <button class="gem-btn" style="background-color: #4b1a5e;" data-gem="amethyst" onclick="updateConfig('gem', 'amethyst')"></button>
+                                <button class="gem-btn" style="background-color: #5e1a1a;" data-gem="ruby" onclick="updateConfig('gem', 'ruby')"></button>
+                                <button class="gem-btn" style="background-color: #f0f0f0;" data-gem="white" onclick="updateConfig('gem', 'white')"></button>
+                            </div>
+                            <p id="gem-name-display" class="gem-name">Black Onyx</p>
+                        
+                            <div id="secondary-gem-container">
+                                <p class="gem-label-small">Secondary Stone</p>
+                                <div class="gem-selector" id="gem-selector-2">
+                                    <button class="gem-btn active" style="background-color: #111; border-color: #333;" data-gem="black" onclick="updateConfig('gem2', 'black')"></button>
+                                    <button class="gem-btn" style="background-color: #1a2b5e;" data-gem="sapphire" onclick="updateConfig('gem2', 'sapphire')"></button>
+                                    <button class="gem-btn" style="background-color: #1a5e32;" data-gem="emerald" onclick="updateConfig('gem2', 'emerald')"></button>
+                                    <button class="gem-btn" style="background-color: #4b1a5e;" data-gem="amethyst" onclick="updateConfig('gem2', 'amethyst')"></button>
+                                    <button class="gem-btn" style="background-color: #5e1a1a;" data-gem="ruby" onclick="updateConfig('gem2', 'ruby')"></button>
+                                    <button class="gem-btn" style="background-color: #f0f0f0;" data-gem="white" onclick="updateConfig('gem2', 'white')"></button>
+                                </div>
+                                <p id="gem-name-display-2" class="gem-name">Black Onyx</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="product-dimensions">
-                    <h3>Dimensions</h3>
-                    <ul>
-                        <li>Width: 24mm</li>
-                        <li>Height (Pendant with bail): 24mm</li>
-                        <li>Height (Pendant): 14mm</li>
-                        <li>Height (Eye-ball): 4mm</li>
-                        <li>Depth (thickness): 4mm</li>
-                        <li>Bail opening: 4 or 5mm</li>
-                    </ul>
+                <div class="product-actions">
+                    <button class="buy-button">Commission Piece</button>
+                    
+                    <div class="accordion">
+                        <details>
+                            <summary>Dimensions & Details</summary>
+                            <ul>
+                                <li>Width: 28mm | Height: 18mm</li>
+                                <li>Material: 925 Sterling Silver or 18k Vermeil</li>
+                                <li>Chain: 50cm Box Chain included</li>
+                                <li>Designed in Madrid</li>
+                            </ul>
+                        </details>
+                        <details>
+                            <summary>The Lore</summary>
+                            <p>A Votiva is considered a silent promise. It was the wearer who gave it a voice. By adding a piercing, you mark the piece with your own story.</p>
+                        </details>
+                    </div>
                 </div>
-
-                <button class="buy-button">Buy Now</button>
-                <a href="index.html" class="back-link">← Back to Collection</a>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="footer-logo">VOTIVA</div>
-        <p class="footer-text">
-            Handcrafted jewelry for the modern individual<br>
-            A language understood throughout all cultures<br><br>
-            © 2025 VOTIVA. All rights reserved.
-        </p>
+        <div class="footer-text-wrapper">
+            <div class="footer-left">
+                Handcrafted jewelry for the modern individual<br>
+                A language understood throughout all cultures
+            </div>
+            <div class="footer-right">
+                © 2025 VOTIVA. All rights reserved.
+            </div>
+        </div>
     </footer>
-
-    <script>
-        function changeImage(thumbnail) {
-            const mainImage = document.getElementById('mainImage');
-            mainImage.src = thumbnail.src;
-
-            document.querySelectorAll('.thumbnail').forEach(thumb => {
-                thumb.classList.remove('active');
-            });
-            thumbnail.classList.add('active');
-        }
-    </script>
 </body>
 </html>
