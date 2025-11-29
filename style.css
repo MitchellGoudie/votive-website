@@ -48,6 +48,7 @@ body {
     font-family: 'Army', sans-serif;
     font-size: 1.8rem;
     color: #fafafa;
+    letter-spacing: 0;
 }
 
 .nav-links {
@@ -973,7 +974,7 @@ body {
     margin-bottom: 4rem;
     user-select: none;
     display: block;
-    letter-spacing: -0.05em; /* Tighten it up */
+    letter-spacing: 0; /* Tighten it up */
 }
 
 .footer-text-wrapper {
