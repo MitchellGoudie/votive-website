@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOTIVA - Coming Soon</title>
+    <link rel="stylesheet" href="gate.css">
+</head>
+<body>
+    <div class="gate-container">
+        <div class="gate-content">
+            <!-- Logo -->
+            <div class="gate-logo">VOTIVA</div>
+
+            <!-- Tagline -->
+            <p class="gate-tagline">Adorn the form, design the self</p>
+
+            <!-- Divider -->
+            <div class="gate-divider">
+                <span class="divider-label">COMING SOON</span>
+            </div>
+
+            <!-- Email Signup Section -->
+            <div class="signup-section">
+                <p class="signup-text">Be the first to know when we launch.</p>
+                <form class="signup-form" id="email-form">
+                    <div class="input-group">
+                        <input
+                            type="email"
+                            id="email-input"
+                            placeholder="Enter your email"
+                            required
+                        >
+                        <button type="submit" class="signup-btn">Join</button>
+                    </div>
+                    <p class="signup-success" id="signup-success">Thank you. We'll be in touch.</p>
+                </form>
+            </div>
+
+            <!-- Password Section -->
+            <div class="password-section">
+                <p class="password-label">Have access?</p>
+                <form class="password-form" id="password-form">
+                    <div class="input-group">
+                        <input
+                            type="password"
+                            id="password-input"
+                            placeholder="Enter password"
+                        >
+                        <button type="submit" class="enter-btn">Enter</button>
+                    </div>
+                    <p class="password-error" id="password-error">Incorrect password</p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="gate-footer">
+            <span>&copy; 2025 VOTIVA</span>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const CORRECT_PASSWORD = 'humanity';
+        const AUTH_KEY = 'votiva_authenticated';
+
+        // Check if already authenticated
+        if (localStorage.getItem(AUTH_KEY) === 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Email form handling
+        const emailForm = document.getElementById('email-form');
+        const emailInput = document.getElementById('email-input');
+        const signupSuccess = document.getElementById('signup-success');
+
+        emailForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+
+            // Store email locally (you can connect this to a service later)
+            let emails = JSON.parse(localStorage.getItem('votiva_emails') || '[]');
+            if (!emails.includes(email)) {
+                emails.push(email);
+                localStorage.setItem('votiva_emails', JSON.stringify(emails));
+            }
+
+            // Show success message
+            signupSuccess.classList.add('visible');
+            emailInput.value = '';
+
+            // Hide success after 3 seconds
+            setTimeout(() => {
+                signupSuccess.classList.remove('visible');
+            }, 3000);
+
+            console.log('Email collected:', email);
+            console.log('All collected emails:', emails);
+        });
+
+        // Password form handling
+        const passwordForm = document.getElementById('password-form');
+        const passwordInput = document.getElementById('password-input');
+        const passwordError = document.getElementById('password-error');
+
+        passwordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = passwordInput.value;
+
+            if (password.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
+                // Set authenticated flag
+                localStorage.setItem(AUTH_KEY, 'true');
+                // Redirect to main site
+                window.location.href = 'index.html';
+            } else {
+                // Show error
+                passwordError.classList.add('visible');
+                passwordInput.value = '';
+                passwordInput.focus();
+
+                // Hide error after 3 seconds
+                setTimeout(() => {
+                    passwordError.classList.remove('visible');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VOTIVA - Adorn the form, design the self</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Gate protection - redirect if not authenticated
+        if (localStorage.getItem('votiva_authenticated') !== 'true') {
+            window.location.href = 'gate.html';
+        }
+    </script>
 </head>
 <body>
     <nav class="navbar" id="navbar">
@@ -270,7 +276,7 @@
                 <div class="contact-info-wrapper">
                     <div class="info-block">
                         <h3>Inquiries</h3>
-                        <a href="mailto:info@votiva.com">info@votiva.com</a>
+                        <a href="/cdn-cgi/l/email-protection#e28b8c848da2948d968b9483cc818d8f"><span class="__cf_email__" data-cfemail="137a7d757c53657c677a65723d707c7e">[email&#160;protected]</span></a>
                     </div>
                     <div class="info-block">
                         <h3>Studio</h3>
@@ -298,7 +304,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="script.js"></script>
 
     <script>
         console.log("INLINE SCRIPT RUNNING - IF YOU SEE THIS, IT WORKS");
@@ -313,39 +319,94 @@
                 });
             }
     
-            // --- 2. Gemstone Logic (The Fix) ---
+            // --- 2. Gemstone Logic with Mobile Touch Support ---
             const gems = document.querySelectorAll('.gem-item');
             const display = document.getElementById('gem-lore-display');
+            let activeGem = null; // Track which gem is currently active on mobile
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
     
             if (gems.length > 0 && display) {
                 console.log("Gems found:", gems.length); // Debug
+                console.log("Mobile device:", isMobile); // Debug
     
                 gems.forEach(gem => {
-                    gem.addEventListener('mouseenter', (e) => {
-                        // Check if data is actually being read
-                        const lore = e.currentTarget.getAttribute('data-lore');
-                        console.log("Hover Lore:", lore); 
-    
-                        if (lore) {
+                    // Desktop hover behavior (only on non-mobile)
+                    if (!isMobile) {
+                        gem.addEventListener('mouseenter', (e) => {
+                            const lore = e.currentTarget.getAttribute('data-lore');
+                            console.log("Hover Lore:", lore); 
+        
+                            if (lore) {
+                                display.style.opacity = '0';
+                                setTimeout(() => {
+                                    display.textContent = lore;
+                                    display.style.opacity = '1';
+                                    display.style.color = '#fff';
+                                    display.style.textShadow = '0 0 10px rgba(255,255,255,0.8)';
+                                }, 50);
+                            }
+                        });
+        
+                        gem.addEventListener('mouseleave', () => {
                             display.style.opacity = '0';
                             setTimeout(() => {
-                                display.textContent = lore;
+                                display.textContent = 'Select your offering.';
                                 display.style.opacity = '1';
-                                display.style.color = '#fff';
-                                display.style.textShadow = '0 0 10px rgba(255,255,255,0.8)';
-                            }, 50); // Faster transition
+                                display.style.color = '#E0E0E0';
+                                display.style.textShadow = 'none';
+                            }, 50);
+                        });
+                    }
+
+                    // Touch/tap handler for mobile and click for all
+                    const handleTap = (e) => {
+                        e.preventDefault(); // Prevent default
+                        e.stopPropagation(); // Stop event bubbling
+                        
+                        const lore = e.currentTarget.getAttribute('data-lore');
+                        console.log("Tap event - Current active gem:", activeGem ? "exists" : "none");
+                        console.log("Tapped gem:", gem);
+                        console.log("Is same gem?", activeGem === gem);
+                        
+                        // If this gem is already active, deactivate it
+                        if (activeGem === gem) {
+                            console.log("DEACTIVATING gem");
+                            gem.classList.remove('active-tap');
+                            activeGem = null;
+                            display.style.opacity = '0';
+                            setTimeout(() => {
+                                display.textContent = 'Select your offering.';
+                                display.style.opacity = '1';
+                                display.style.color = '#E0E0E0';
+                                display.style.textShadow = 'none';
+                            }, 50);
+                        } else {
+                            console.log("ACTIVATING gem");
+                            // Deactivate previous gem if any
+                            if (activeGem) {
+                                activeGem.classList.remove('active-tap');
+                            }
+                            
+                            // Activate this gem
+                            gem.classList.add('active-tap');
+                            activeGem = gem;
+                            
+                            if (lore) {
+                                display.style.opacity = '0';
+                                setTimeout(() => {
+                                    display.textContent = lore;
+                                    display.style.opacity = '1';
+                                    display.style.color = '#fff';
+                                    display.style.textShadow = '0 0 10px rgba(255,255,255,0.8)';
+                                }, 50);
+                            }
                         }
-                    });
-    
-                    gem.addEventListener('mouseleave', () => {
-                        display.style.opacity = '0';
-                        setTimeout(() => {
-                            display.textContent = 'Select your offering.';
-                            display.style.opacity = '1';
-                            display.style.color = '#E0E0E0';
-                            display.style.textShadow = 'none';
-                        }, 50);
-                    });
+                    };
+
+                    // Use touchend for mobile (better than click)
+                    gem.addEventListener('touchend', handleTap);
+                    // Also handle click for desktop/fallback
+                    gem.addEventListener('click', handleTap);
                 });
             } else {
                 console.error("CRITICAL: Gems or Display ID missing in HTML");
@@ -359,6 +420,7 @@
                     img.style.filter = "brightness(1.3) contrast(1.1)";
                     img.style.transform = "scale(1.1)";
                 });
+                
                 img.addEventListener('mouseleave', () => {
                     img.style.filter = "";
                     img.style.transform = "";
@@ -366,6 +428,5 @@
             });
         });
     </script>
-    </body>
 </body>
 </html>

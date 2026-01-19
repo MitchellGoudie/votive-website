@@ -6,6 +6,12 @@
     <title>Boobs Pendant - VOTIVA</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="product.css">
+    <script>
+        // Gate protection - redirect if not authenticated
+        if (localStorage.getItem('votiva_authenticated') !== 'true') {
+            window.location.href = 'gate.html';
+        }
+    </script>
 </head>
 <body>
     <nav class="navbar scrolled" id="navbar">

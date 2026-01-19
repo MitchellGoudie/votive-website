@@ -1,0 +1,256 @@
+@font-face {
+    font-family: 'Army';
+    src: url('Assets/Fonts/ARMYD___.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    background: #0a0a0a;
+    color: #fafafa;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.gate-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.gate-content {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Logo */
+.gate-logo {
+    font-family: 'Army', sans-serif;
+    font-size: 5rem;
+    color: #fafafa;
+    margin-bottom: 1rem;
+    letter-spacing: 0;
+}
+
+/* Tagline */
+.gate-tagline {
+    font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #888;
+    margin-bottom: 3rem;
+}
+
+/* Divider */
+.gate-divider {
+    position: relative;
+    height: 60px;
+    margin: 2rem auto 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gate-divider::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 100%;
+    background-color: #333;
+}
+
+.divider-label {
+    background-color: #0a0a0a;
+    padding: 8px 0;
+    font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #C5A059;
+    position: relative;
+    z-index: 1;
+}
+
+/* Signup Section */
+.signup-section {
+    margin-bottom: 4rem;
+}
+
+.signup-text {
+    font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 1.5rem;
+}
+
+/* Input Group (shared styling) */
+.input-group {
+    display: flex;
+    gap: 0;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 1rem 1.2rem;
+    border: 1px solid #333;
+    border-right: none;
+    background: transparent;
+    color: #fafafa;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #666;
+}
+
+.input-group input::placeholder {
+    color: #555;
+}
+
+.input-group button {
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: 1px solid #333;
+    color: #888;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.input-group button:hover {
+    background: #C5A059;
+    border-color: #C5A059;
+    color: #0a0a0a;
+}
+
+/* Success/Error Messages */
+.signup-success,
+.password-error {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    margin-top: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    height: 20px;
+}
+
+.signup-success {
+    color: #C5A059;
+}
+
+.password-error {
+    color: #c55959;
+}
+
+.signup-success.visible,
+.password-error.visible {
+    opacity: 1;
+}
+
+/* Password Section */
+.password-section {
+    padding-top: 2rem;
+    border-top: 1px solid #1a1a1a;
+}
+
+.password-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+/* Footer */
+.gate-footer {
+    position: absolute;
+    bottom: 2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #333;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .gate-logo {
+        font-size: 3.5rem;
+    }
+
+    .gate-tagline {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+    }
+
+    .input-group {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .input-group input {
+        border-right: 1px solid #333;
+        border-bottom: none;
+    }
+
+    .input-group button {
+        border-top: none;
+        padding: 1.2rem;
+    }
+
+    .input-group input:focus {
+        border-color: #666;
+        border-right-color: #666;
+    }
+}
+
+/* Animation for page load */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gate-content {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.signup-section {
+    animation: fadeIn 0.8s ease 0.2s forwards;
+    opacity: 0;
+}
+
+.password-section {
+    animation: fadeIn 0.8s ease 0.4s forwards;
+    opacity: 0;
+}
